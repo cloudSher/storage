@@ -10,5 +10,4 @@ import org.springframework.data.querydsl.QueryDslPredicateExecutor;
  */
 public interface SeriesRepository extends MongoRepository<Series,String>,QueryDslPredicateExecutor<Series> {
 
-
 }
