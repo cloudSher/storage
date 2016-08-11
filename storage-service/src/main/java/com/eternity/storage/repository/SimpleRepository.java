@@ -29,7 +29,7 @@ public class SimpleRepository<T, ID extends Serializable> extends AbstractStorag
     public <S extends T> S save(S s) {
         Assert.notNull(driver);
         StandardMongoTemplate template = (StandardMongoTemplate) driver;
-       template.save(s);
+        template.save(s);
         return s;
     }
 

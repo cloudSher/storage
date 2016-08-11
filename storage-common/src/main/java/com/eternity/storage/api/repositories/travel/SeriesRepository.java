@@ -1,11 +1,14 @@
 package com.eternity.storage.api.repositories.travel;
 
-import java.io.Serializable;
+import com.eternity.workbench.api.model.Series;
+import com.sun.org.apache.xpath.internal.operations.String;
+import org.springframework.data.mongodb.repository.MongoRepository;
+import org.springframework.data.querydsl.QueryDslPredicateExecutor;
 
 /**
  * Created by cloudsher on 2016/8/10.
  */
-public interface SeriesRepository<T,K extends Serializable> extends  org.springframework.data.repository.CrudRepository<T, K>, org.springframework.data.querydsl.QueryDslPredicateExecutor<T> {
+public interface SeriesRepository extends MongoRepository<Series,String>,QueryDslPredicateExecutor<Series> {
 
 
 }

@@ -12,6 +12,7 @@ public class PropertiesProvider implements ConfigurationProvider {
     private String path;
     private Map<String,Object> propMap = new HashMap<>();
     private Map<String,Object> pathMap = new HashMap<>();
+    private Map<String,Object> configMap = new HashMap<>();
 
     public void loadConfig(String path) throws IOException {
         if(path == null || path.isEmpty()){
@@ -45,11 +46,12 @@ public class PropertiesProvider implements ConfigurationProvider {
             Properties prop = (Properties) propMap.get(path);
             if(prop != null){
                 prop2Map(prop);
+                configMap.put(path,pathMap);
             }
         } catch (IOException e) {
             e.printStackTrace();
         }
-        return (Map) pathMap.get(path);
+        return (Map) configMap.get(path);
     }
 
     public void prop2Map(Properties prop){

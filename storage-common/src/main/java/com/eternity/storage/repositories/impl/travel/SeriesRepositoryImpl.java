@@ -9,7 +9,7 @@ import org.springframework.stereotype.Repository;
  * Created by cloudsher on 2016/8/10.
  */
 @Repository
-public class SeriesRepositoryImpl extends SimpleRepository<Series,String> {
+public class SeriesRepositoryImpl extends SimpleRepository<Series,String> implements SeriesRepository<Series>{
 
    public SeriesRepositoryImpl() {
         super(StandardMongoRepositoryFactory.getTemplate());

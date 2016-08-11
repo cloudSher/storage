@@ -36,11 +36,12 @@ public class MongoConfiguration implements com.eternity.storage.config.Configura
     public MongoConfiguration(){
         initContext();
         init();
-        this.dbName = "customer";
+        this.dbName = "admin";
     }
 
     public void init(){
         String host = context.getString("mongo.db.host");
+        System.out.println("======="+host);
         try {
             mongo = new Mongo(host);
             morphia = new Morphia();
@@ -88,4 +89,5 @@ public class MongoConfiguration implements com.eternity.storage.config.Configura
     public ConfigurationContext getConfigurationContext() {
         return context;
     }
+
 }
