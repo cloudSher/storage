@@ -45,7 +45,7 @@ public class MongoConfiguration implements com.eternity.storage.config.Configura
         try {
             mongo = new Mongo(host);
             morphia = new Morphia();
-        } catch (UnknownHostException e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
