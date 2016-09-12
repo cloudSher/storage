@@ -5,7 +5,7 @@ import javax.jdo.annotations.PersistenceCapable;
 /**
  * Created by Administrator on 2016/8/29.
  */
-@PersistenceCapable
+//@PersistenceCapable
 public class Loggin {
 
     private String login;

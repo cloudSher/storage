@@ -11,7 +11,7 @@
 
     <groupId>com.eternity.storage</groupId>
     <artifactId>storage-service</artifactId>
-    <packaging>jar</packaging>
+    <!--<packaging>jar</packaging>-->
 
     <properties>
         <morphia.version>0.105</morphia.version>
@@ -92,31 +92,51 @@
         <!--dataNucleus-->
         <dependency>
             <groupId>org.datanucleus</groupId>
-            <artifactId>javax.jdo</artifactId>
-            <version>3.2.0-m1</version>
-        </dependency>
-        <dependency>
-            <groupId>org.datanucleus</groupId>
             <artifactId>datanucleus-core</artifactId>
-            <version>5.0.1</version>
-            <scope>runtime</scope>
+            <version>[5.0.0-m1, 5.9)</version>
         </dependency>
         <dependency>
             <groupId>org.datanucleus</groupId>
             <artifactId>datanucleus-api-jdo</artifactId>
-            <version>5.0.1</version>
+            <version>[5.0.0-m1, 5.9)</version>
         </dependency>
         <dependency>
             <groupId>org.datanucleus</groupId>
-            <artifactId>datanucleus-rdbms</artifactId>
-            <version>5.0.1</version>
-            <scope>runtime</scope>
+            <artifactId>javax.jdo</artifactId>
+            <version>[3.2.0-m5, )</version>
         </dependency>
         <dependency>
             <groupId>org.datanucleus</groupId>
             <artifactId>datanucleus-mongodb</artifactId>
-            <version>5.0.0-release</version>
+            <version>[5.0.0-m1, 5.9)</version>
         </dependency>
+
+        <!--4.0-->
+        <!--<dependency>-->
+            <!--<groupId>org.datanucleus</groupId>-->
+            <!--<artifactId>datanucleus-core</artifactId>-->
+            <!--<version>[4.0.0-m4, )</version>-->
+        <!--</dependency>-->
+        <!--<dependency>-->
+            <!--<groupId>org.datanucleus</groupId>-->
+            <!--<artifactId>datanucleus-api-jdo</artifactId>-->
+            <!--<version>[4.2.0-m1, )</version>-->
+        <!--</dependency>-->
+        <!--<dependency>-->
+            <!--<groupId>org.datanucleus</groupId>-->
+            <!--<artifactId>datanucleus-rdbms</artifactId>-->
+            <!--<version>[4.0.0-m4, )</version>-->
+        <!--</dependency>-->
+        <!--<dependency>-->
+            <!--<groupId>org.datanucleus</groupId>-->
+            <!--<artifactId>javax.jdo</artifactId>-->
+            <!--<version>[3.2.0-m1, )</version>-->
+        <!--</dependency>-->
+        <!--<dependency>-->
+            <!--<groupId>org.datanucleus</groupId>-->
+            <!--<artifactId>datanucleus-mongodb</artifactId>-->
+            <!--<version>[5.0.0-m1, 5.9)</version>-->
+        <!--</dependency>-->
     </dependencies>
 
     <build>
@@ -163,6 +183,20 @@
                         </goals>
                     </execution>
                 </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>exec-maven-plugin</artifactId>
+                <version>1.1</version>
+                <configuration>
+                    <mainClass>com.eternity.storage.jdo.Main</mainClass>
+                    <systemProperties>
+                        <systemProperty>
+                            <key>log4j.configuration</key>
+                            <value>file:src/main/resources/log4j.properties</value>
+                        </systemProperty>
+                    </systemProperties>
+                </configuration>
             </plugin>
             <plugin>
                 <artifactId>maven-assembly-plugin</artifactId>

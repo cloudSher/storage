@@ -6,13 +6,13 @@ import javax.jdo.annotations.PersistenceCapable;
 /**
  * Created by Administrator on 2016/8/29.
  */
-@PersistenceCapable
+//@PersistenceCapable
 public class Account {
 
     private String id;
     private String name;
 
-    @Embedded
+//    @Embedded
     private Loggin loggin;
 
     public String getId() {

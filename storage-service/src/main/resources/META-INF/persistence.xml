@@ -6,14 +6,14 @@
 
     <!-- JPA tutorial "unit" -->
     <persistence-unit name="Tutorial">
+        <mapping-file>/META-INF/package.jdo</mapping-file>
         <class>com.eternity.storage.jdo.model.Account</class>
         <class>com.eternity.storage.jdo.model.Loggin</class>
         <!--<exclude-unlisted-classes/>-->
         <properties>
             <property name="javax.jdo.option.ConnectionURL" value="mongodb:/customer"/>
+            <property name="javax.jdo.option.Mapping" value="mongodb"/>
             <property name="datanucleus.schema.autoCreateAll" value="true"/>
-            <property name="datanucleus.schema.validateTables" value="false"/>
-            <property name="datanucleus.schema.validateConstraints" value="false"/>
         </properties>
     </persistence-unit>
 </persistence>
