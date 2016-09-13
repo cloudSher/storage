@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<!DOCTYPE orm SYSTEM "file:/javax/jdo/orm.dtd">
+<orm>
+    <package name="com.eternity.storage.jdo.model">
+        <class name="Account" table="account">
+            <datastore-identity>
+                <column name="id"/>
+            </datastore-identity>
+            <field name="name">
+                <column name="NAME" length="100" jdbc-type="VARCHAR"/>
+            </field>
+            <field name="loggin">
+            </field>
+        </class>
+
+          <class name="Loggin" table="loggin">
+              <field name="login" column="LOGIN"/>
+              <field name="password" column="PWD"/>
+          </class>
+    </package>
+</orm>
