@@ -12,6 +12,7 @@ public class QueryDslRepositoryImpl {
 
 
 
+
     public Object findOne(Predicate var) {
         return null;
     }

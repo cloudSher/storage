@@ -25,6 +25,11 @@
         <spring-data.version>Hopper-SR2</spring-data.version>
         <fastjson.version>1.2.7</fastjson.version>
         <guava.version>18.0</guava.version>
+        <!-- Log libs -->
+        <slf4j_version>1.6.2</slf4j_version>
+        <jcl_version>1.1</jcl_version>
+        <log4j_version>1.2.16</log4j_version>
+        <logback_version>1.0.6</logback_version>
     </properties>
 
     <dependencyManagement>
@@ -57,7 +62,23 @@
                 <version>${spring.version}</version>
                 <scope>provided</scope>
             </dependency>
+            <dependency>
+                <groupId>org.slf4j</groupId>
+                <artifactId>slf4j-api</artifactId>
+                <version>${slf4j_version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.slf4j</groupId>
+                <artifactId>slf4j-log4j12</artifactId>
+                <version>${slf4j_version}</version>
+            </dependency>
+            <dependency>
+                <groupId>log4j</groupId>
+                <artifactId>log4j</artifactId>
+                <version>${log4j_version}</version>
+            </dependency>
         </dependencies>
+
     </dependencyManagement>
 
     <build>

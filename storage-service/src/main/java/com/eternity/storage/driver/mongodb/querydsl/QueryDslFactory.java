@@ -19,6 +19,7 @@ public class QueryDslFactory {
             configuration = new MongoConfiguration();
         }
     }
+    
     /**
      * 获取mongo数据存储对象
      * @return
