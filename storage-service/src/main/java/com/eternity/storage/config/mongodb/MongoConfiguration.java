@@ -4,18 +4,8 @@ import com.eternity.storage.config.ConfigurationContext;
 import com.eternity.storage.config.ConfigurationProvider;
 import com.eternity.storage.config.PropertiesProvider;
 import com.mongodb.Mongo;
-import org.elasticsearch.common.inject.Inject;
-import org.elasticsearch.search.suggest.context.ContextMapping;
 import org.mongodb.morphia.Datastore;
 import org.mongodb.morphia.Morphia;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.PropertySource;
-import org.springframework.core.env.Environment;
-
-import javax.sql.DataSource;
-import java.io.IOException;
-import java.net.UnknownHostException;
-import java.security.Provider;
 
 /**
  * Created by cloudsher on 2016/8/3.
