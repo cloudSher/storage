@@ -31,19 +31,13 @@ public class DataSource {
         if(pds != null)
             return ;
         pds = new PoolingDataSource();
-        pds.setAllowLocalTransactions(true);
+//        pds.setAllowLocalTransactions(true);
+        pds.setAutomaticEnlistingEnabled(true);
         mysqlSetUp();
         pds.setMinPoolSize(2);
         pds.setMaxPoolSize(32);
         pds.setConnectionTestTimeout(30);
         pds.init();
-        try {
-            IncrementalRecoverer.recover(pds);
-        } catch (RecoveryException e) {
-            e.printStackTrace();
-        }
-        Recoverer recoverer = new Recoverer();
-        recoverer.run();
     }
 
 

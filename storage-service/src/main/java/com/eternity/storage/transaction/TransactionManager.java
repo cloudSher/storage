@@ -25,14 +25,13 @@ import java.sql.Statement;
 public class TransactionManager {
 
     private static Logger log = LoggerFactory.getLogger(TransactionManager.class);
-    private BitronixTransactionManager btm;
-    private final String serverPwd = "Root123456!";
+    private static BitronixTransactionManager btm;
+    private static final String serverPwd = "Root123456!";
 
-    public TransactionManager setUp(){
+    public static void setUp(){
         TransactionManagerServices.getConfiguration().setGracefulShutdownInterval(1);
         TransactionManagerServices.getConfiguration().setExceptionAnalyzer(DefaultExceptionAnalyzer.class.getName());
         btm = TransactionManagerServices.getTransactionManager();
-        return this;
     }
 
 
@@ -45,17 +44,10 @@ public class TransactionManager {
     public void start(Action func){
         try {
             btm.begin();
-            if(func.action()){
-                btm.commit();
-            }
+            func.action();
+            btm.commit();
         } catch (Exception e) {
             e.printStackTrace();
-            System.out.println("================ transaction error==============");
-            try {
-                btm.rollback();
-            } catch (SystemException e1) {
-                e1.printStackTrace();
-            }
         }finally {
             try {
                 btm.rollback();
@@ -80,91 +72,41 @@ public class TransactionManager {
     /***
      * 分布式事务提交，多数据源测试
      */
-    public static TransactionManager transactionTest(){
-        TransactionManager tm = new TransactionManager();
-        tm.setUp();
-//        tm.start(()->{
-//            System.out.println(tm);
-//            String serverPwd = "Root123456!";
-//            tm.datasourceTest("jdbc:mysql://123.57.213.106/test","root",serverPwd,"test","3306","jdbc/ds3","insert into user value (18,'lisi',20)");
-////            crash(5 * 1000);
-//            tm.datasourceTest("jdbc:mysql://127.0.0.1/test","root","root","test","3306","jdbc/ds2","insert into user value(12,'zhangsan',10)");
-//            return true;
-//        });
-        tm.start();
-//        tm.execute();
-        return tm;
+    public static void transactionTest(){
+        try {
+            setUp();
+
+            btm.begin();
+            btm.setTransactionTimeout(1000);
+
+            execute();
+
+            btm.commit();
+        } catch (Exception e) {
+            e.printStackTrace();
+            try {
+                btm.rollback();
+            } catch (SystemException e1) {
+                e1.printStackTrace();
+            }
+        }
     }
 
     /***
      * btm commit
      */
-    public void start(){
-        String serverPwd = "Root123456!";
-        UserTransaction ut = btm;
+    public static void execute(){
         try {
-            ut.begin();
-            datasourceTest("jdbc:mysql://123.57.213.106/test","root",serverPwd,"test","3306","jdbc/ds3","insert into user value (28,'lisi',20)");
+            datasourceTest("jdbc:mysql://123.57.213.106/test","root",serverPwd,"test","3306","jdbc/ds3","insert into user value (34,'lisi',20)");
             datasourceTest("jdbc:mysql://127.0.0.1/test","root","root","test","3306","jdbc/ds2","insert into user value(12,'zhangsan',10)");
-            ut.commit();
         } catch (Exception e) {
             e.printStackTrace();
-            System.out.println("================ transaction error==============");
-            try {
-                ut.rollback();
-            } catch (SystemException e1) {
-                e1.printStackTrace();
-            }
+            System.out.println("================execute sql error==============");
         }
 
     }
 
-
-    /**
-     * 连接提交tx
-     */
-    public void execute(){
-        try {
-            datasourceTest("jdbc:mysql://123.57.213.106/test","root",serverPwd,"test","3306","jdbc/ds3","insert into user value (27,'lisi',20)");
-            datasourceTest("jdbc:mysql://127.0.0.1/test","root","root","test","3306","jdbc/ds2","insert into user value(12,'zhangsan',10)");
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-    }
-
-    /**
-     * jndi 查找datasource 需要配置参数 tomcat配置的数据源
-     *
-     */
-//    public static void test(){
-//        try {
-//            Context ctx = new InitialContext();
-//            javax.sql.DataSource ds = (javax.sql.DataSource) ctx.lookup("jdbc/ds1");
-//            ds.getConnection().commit();
-//        } catch (NamingException e) {
-//            e.printStackTrace();
-//        } catch (SQLException e) {
-//            e.printStackTrace();
-//        }
-//
-//    }
-
-
-    public static void main(String args[]){
-       transactionTest();
-    }
-
-    public static void crash(long time){
-         log.info("sleep before");
-        try {
-            Thread.sleep(time);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-        log.info("sleep after");
-    }
-
-    public PoolingDataSource datasourceTest(String url,String user,String pwd,String databaseName,String port,String uniqueName,String sql) throws SQLException {
+    public static PoolingDataSource datasourceTest(String url,String user,String pwd,String databaseName,String port,String uniqueName,String sql) throws SQLException {
         log.info("start create datasource ... execute sql task, if return successful,close connection");
         DataSource dataSource = new DataSource(uniqueName);
         dataSource.setDatabaseName(databaseName);
@@ -175,17 +117,22 @@ public class TransactionManager {
         dataSource.init();
         PoolingDataSource pds = dataSource.getDataSource();
         Connection connection = pds.getConnection();
-        connection.setAutoCommit(false);
+        Statement statement = null;
         try{
-            Statement statement = connection.createStatement();
+            statement = connection.createStatement();
             statement.execute(sql);
-//            connection.commit();
         }finally {
-            connection.close();
-            log.info("connection close...");
+            if(statement != null)
+                statement.close();
         }
         return pds;
     }
+
+
+    public static void main(String args[]){
+        transactionTest();
+    }
+
 
 
 
