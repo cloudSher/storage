@@ -77,7 +77,7 @@ public class TransactionManager {
             setUp();
 
             btm.begin();
-            btm.setTransactionTimeout(1000);
+            btm.setTransactionTimeout(10000);
 
             execute();
 
@@ -97,7 +97,7 @@ public class TransactionManager {
      */
     public static void execute(){
         try {
-            datasourceTest("jdbc:mysql://123.57.213.106/test","root",serverPwd,"test","3306","jdbc/ds3","insert into user value (34,'lisi',20)");
+            datasourceTest("jdbc:mysql://123.57.213.106/test","root",serverPwd,"test","3306","jdbc/ds3","insert into user value (37,'lisi',20)");
             datasourceTest("jdbc:mysql://127.0.0.1/test","root","root","test","3306","jdbc/ds2","insert into user value(12,'zhangsan',10)");
         } catch (Exception e) {
             e.printStackTrace();
@@ -132,11 +132,6 @@ public class TransactionManager {
     public static void main(String args[]){
         transactionTest();
     }
-
-
-
-
-
 
 
 }
