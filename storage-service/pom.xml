@@ -11,7 +11,7 @@
 
     <groupId>com.eternity.storage</groupId>
     <artifactId>storage-service</artifactId>
-    <!--<packaging>jar</packaging>-->
+    <packaging>jar</packaging>
 
     <properties>
         <morphia.version>0.105</morphia.version>
@@ -170,7 +170,12 @@
             <version>4.0.0</version>
         </dependency>
 
-
+         <!--metaModel-->
+        <dependency>
+            <groupId>org.apache.metamodel</groupId>
+            <artifactId>MetaModel-full</artifactId>
+            <version>4.5.4</version>
+        </dependency>
     </dependencies>
 
     <build>
