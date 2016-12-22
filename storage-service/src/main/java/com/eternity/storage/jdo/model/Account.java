@@ -1,8 +1,5 @@
 package com.eternity.storage.jdo.model;
 
-import javax.jdo.annotations.Embedded;
-import javax.jdo.annotations.PersistenceCapable;
-
 /**
  * Created by Administrator on 2016/8/29.
  */
@@ -13,7 +10,7 @@ public class Account {
     private String name;
 
 //    @Embedded
-    private Loggin loggin;
+    private Login login;
 
     public String getId() {
         return id;
@@ -31,11 +28,11 @@ public class Account {
         this.name = name;
     }
 
-    public Loggin getLoggin() {
-        return loggin;
+    public Login getLogin() {
+        return login;
     }
 
-    public void setLoggin(Loggin loggin) {
-        this.loggin = loggin;
+    public void setLogin(Login login) {
+        this.login = login;
     }
 }

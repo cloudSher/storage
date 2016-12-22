@@ -5,7 +5,7 @@
         <class name="Account" identity-type="datastore">
             <field name="id"/>
             <field name="name"/>
-            <field name="loggin" persistence-modifier="persistent">
+            <field name="login" persistence-modifier="persistent">
             </field>
         </class>
 

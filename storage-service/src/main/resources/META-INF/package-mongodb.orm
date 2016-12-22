@@ -9,11 +9,11 @@
             <field name="name">
                 <column name="NAME" length="100" jdbc-type="VARCHAR"/>
             </field>
-            <field name="loggin">
+            <field name="login">
             </field>
         </class>
 
-          <class name="Loggin" table="loggin">
+          <class name="Loggin" table="login">
               <field name="login" column="LOGIN"/>
               <field name="password" column="PWD"/>
           </class>

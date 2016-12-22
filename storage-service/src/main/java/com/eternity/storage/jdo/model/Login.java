@@ -6,7 +6,7 @@ import javax.jdo.annotations.PersistenceCapable;
  * Created by Administrator on 2016/8/29.
  */
 //@PersistenceCapable
-public class Loggin {
+public class Login {
 
     private String login;
     private String password;

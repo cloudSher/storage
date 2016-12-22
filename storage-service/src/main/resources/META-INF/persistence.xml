@@ -8,7 +8,7 @@
     <persistence-unit name="Tutorial">
         <mapping-file>/META-INF/package.jdo</mapping-file>
         <class>com.eternity.storage.jdo.model.Account</class>
-        <class>com.eternity.storage.jdo.model.Loggin</class>
+        <class>com.eternity.storage.jdo.model.Login</class>
         <!--<exclude-unlisted-classes/>-->
         <properties>
             <property name="javax.jdo.option.ConnectionURL" value="mongodb:/customer"/>
