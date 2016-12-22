@@ -16,21 +16,21 @@ public class Main {
 
 
     public static void main(String args[]){
-        PersistenceManagerFactory pmf = JDOHelper.getPersistenceManagerFactory("Tutorial");
-        PersistenceManager pm = pmf.getPersistenceManager();
-
-        JDOMetadata jdoMetadata = pmf.newMetadata();
-
-        Account  account = new Account();
-        account.setId("111");
-        account.setName("account");
-        Login login = new Login();
-        login.setLogin("222");
-        login.setPassword("333");
-        account.setLogin(login);
-        pm.makePersistent(account);
-
-        Query<Account> query = pm.newQuery(Account.class);
-        query.executeList();
+//        PersistenceManagerFactory pmf = JDOHelper.getPersistenceManagerFactory("Tutorial");
+//        PersistenceManager pm = pmf.getPersistenceManager();
+//
+//        JDOMetadata jdoMetadata = pmf.newMetadata();
+//
+//        Account  account = new Account();
+//        account.setId("111");
+//        account.setName("account");
+//        Login login = new Login();
+//        login.setLogin("222");
+//        login.setPassword("333");
+//        account.setLogin(login);
+//        pm.makePersistent(account);
+//
+//        Query<Account> query = pm.newQuery(Account.class);
+//        query.executeList();
     }
 }
