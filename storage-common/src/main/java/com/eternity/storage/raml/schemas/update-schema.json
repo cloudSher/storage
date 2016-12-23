@@ -1,0 +1,24 @@
+{
+  "required": true,
+  "$schema": "http://json-schema.org/draft-extends/schema",
+  "type": "object",
+  "properties": {
+    "updateObjectId" : {
+      "type": "integer",
+      "required": false
+    },
+    "result": {
+      "type": "object",
+      "properties" : {
+        "updateResultEnum" : {
+          "type" : "boolean",
+          "enum" : [true, false]
+        }
+      }
+    },
+    "updateTime": {
+      "type": "string",
+      "required": false
+    }
+  }
+}

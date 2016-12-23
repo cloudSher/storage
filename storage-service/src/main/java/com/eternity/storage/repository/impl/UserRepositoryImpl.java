@@ -62,7 +62,7 @@
 //        Predicate predicate = user.name.eq("lisi");
 //        Iterable<User> all = repository.findAll(predicate);
 //        System.out.println(all.iterator());
-////        repository.save(new User("111","擎天柱"));
+////        repository.save(new User("111",""));
 //    }
 //
 //    public static void main(String args[]){

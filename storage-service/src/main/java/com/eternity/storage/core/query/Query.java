@@ -1,132 +1,108 @@
 package com.eternity.storage.core.query;
 
-import com.eternity.storage.core.query.Criteria.OperateType;
-
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
+import static com.eternity.storage.core.query.Criteria.and;
+import static com.eternity.storage.core.query.Criteria.eq;
+
 /**
- * Created by Administrator on 2016/9/18.
+ * Created by Administrator on 2016/12/14.
  */
 public class Query {
 
-    private Map<String,Criteria> conditions = new HashMap<>();
+    private static Map<String,Object> conditions = new HashMap<String, Object>();
     private Criteria criteria;
-
-    public Query(){
-    }
-
-    public Query(Criteria criteria){
-        this.criteria = criteria;
-    }
-
+    private boolean not_set = true;
+    private int start;
+    private int len;
+    private Sort sort;
+    private Select select;
+    private String domain;
 
 
-    /**
-     * 获取spring对应的query
-     * @param
-     * @return
-     */
-    public org.springframework.data.mongodb.core.query.Query getQueryMapping(){
-        return org.springframework.data.mongodb.core.query.Query.query(getQueryCriteria());
-    }
+    private Query(){}
 
-    public org.springframework.data.mongodb.core.query.Criteria getQueryCriteria(){
-        if(this.criteria == null){
-            throw new NullPointerException("when query entity, the criteria must not be null");
-        }
-        return transformSimpleCriteriaType(criteria);
-    }
-
-    private org.springframework.data.mongodb.core.query.Criteria getCriteria(String key){
-        return new org.springframework.data.mongodb.core.query.Criteria(key);
-    }
-
-    public org.springframework.data.mongodb.core.query.Criteria transformSimpleCriteriaType(Criteria ca){
-        Object[] obj = ca.getObj();
-        Object value = ca.getValue();
-        String key = ca.getKey();
-        OperateType type = ca.getType();
-        org.springframework.data.mongodb.core.query.Criteria criteria = null;
-        switch (type){
-            case EQ :
-                criteria = getCriteria(key).is(value);
-                break;
-            case NE:
-                criteria = getCriteria(key).ne(value);
-                break;
-            case LT:
-                criteria = getCriteria(key).lt(value);
-                break;
-            case LTE:
-                criteria = getCriteria(key).lte(value);
-                break;
-            case GT:
-                criteria = getCriteria(key).gt(value);
-                break;
-            case GTE:
-                criteria = getCriteria(key).gte(value);
-                break;
-            case IN:
-                criteria = getCriteria(key).in(obj);
-                break;
-            case NIN:
-                criteria = getCriteria(key).nin(obj);
-                break;
-            case AND:
-                criteria = transformOperatorCriteriaType(ca);
-                break;
-            case OR:
-                criteria = transformOperatorCriteriaType(ca);
-                break;
-            default:
-                criteria = new org.springframework.data.mongodb.core.query.Criteria();
-        }
-        return criteria;
-    }
-
-    public org.springframework.data.mongodb.core.query.Criteria transformOperatorCriteriaType(Criteria ca){
-        List<Criteria> criteriaList = ca.getCriteriaChain();
-        OperateType type = ca.getType();
-        org.springframework.data.mongodb.core.query.Criteria criteria = new org.springframework.data.mongodb.core.query.Criteria();
-        int size = criteriaList.size();
-        int i = 0;
-        if(criteriaList!=null && size>0){
-            org.springframework.data.mongodb.core.query.Criteria[] criterias = new org.springframework.data.mongodb.core.query.Criteria[size];
-            for (Criteria c : criteriaList){
-                if( c != null){
-                    criterias[i++] = transformSimpleCriteriaType(c);
-                }
-            }
-            if(type == OperateType.AND){
-                criteria.andOperator(criterias);
-            }else if(type == OperateType.OR){
-                criteria.orOperator(criterias);
-            }
-        }
-        return criteria;
-    }
-
-    public static Query query(){
+    public static Query newQuery(){
         return new Query();
     }
 
-    public Query where(Criteria criteria){
-        this.criteria = criteria;
+    public static Query where(Criteria criteria){
+        Query query = newQuery();
+        query.criteria = criteria;
+        query.not_set = false;
+        return query;
+    }
+
+    public  Query from(String domain){
+        this.domain = domain;
         return this;
     }
 
-    public Criteria getCriteria(){
-        return this.criteria;
+    public Query limit(int start,int len){
+        this.start = start;
+        this.len = len;
+        return this;
+    }
+
+    public Query order(Sort sort){
+        this.sort = sort;
+        return this;
+    }
+
+    public Query select(Select select){
+        this.select = select;
+        return this;
     }
 
 
+    public static Map<String, Object> getConditions() {
+        return conditions;
+    }
 
+    public static void setConditions(Map<String, Object> conditions) {
+        Query.conditions = conditions;
+    }
 
+    public Criteria getCriteria() {
+        return criteria;
+    }
 
+    public void setCriteria(Criteria criteria) {
+        this.criteria = criteria;
+    }
 
+    public boolean isNot_set() {
+        return not_set;
+    }
 
+    public void setNot_set(boolean not_set) {
+        this.not_set = not_set;
+    }
+
+    public int getStart() {
+        return start;
+    }
+
+    public int getLen() {
+        return len;
+    }
+
+    public Sort getSort() {
+        return sort;
+    }
+
+    public Select getSelect() {
+        return select;
+    }
+
+    public String getDomain() {
+        return domain;
+    }
+
+    public static void main(String args[]){
+        Query.where(and(eq("id","123"))).from("");
+    }
 
 
 

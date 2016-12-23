@@ -1,0 +1,15 @@
+{
+  "required": true,
+  "$schema": "http://json-schema.org/draft-extends/schema",
+  "type": "object",
+  "properties": {
+    "contentText" : {
+      "type": "string",
+      "required": false
+    },
+    "contentImage": {
+      "type": "string",
+      "required": false
+    }
+  }
+}

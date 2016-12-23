@@ -1,0 +1,21 @@
+{
+  "required": true,
+  "$schema": "http://json-schema.org/draft-extends/schema",
+  "javaType" : "com.startup.saas.api.model.Topics",
+  "type": "object",
+  "description": "主题集合",
+  "properties": {
+    "topics": {
+      "description": "集合",
+      "type": "array",
+      "items": {
+        "$ref": "topic"
+      }
+    },
+    "totalCount": {
+      "description": "主题数量",
+      "type": "integer",
+      "required": false
+    }
+  }
+}

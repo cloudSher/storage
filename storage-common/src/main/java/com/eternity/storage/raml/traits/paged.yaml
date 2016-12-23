@@ -1,0 +1,12 @@
+displayName: paged
+queryParameters:
+  count:
+    description: 当前页所展示的数据个数
+    type: integer
+    default: 10
+    example: 10
+  start:
+    description: 开始页，默认从第一页开始
+    type: integer
+    default: 1
+    example: 1

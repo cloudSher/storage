@@ -1,5 +1,7 @@
 package com.eternity.storage.jdo;
 
+import com.eternity.storage.jdo.model.Account;
+
 import javax.jdo.JDOHelper;
 import javax.jdo.PersistenceManager;
 import javax.jdo.PersistenceManagerFactory;
@@ -16,25 +18,32 @@ public class JDOContext {
     private PersistenceManager manager;
     private PersistenceManagerFactory factory;
 
-    JDOContext(){
-        factory = getPersistenceManagerFactory();
-        manager =  factory.getPersistenceManager();
-    }
 
     /**
      * 获取managerFactory
      * @return
      */
-    public PersistenceManagerFactory getPersistenceManagerFactory(){
-        Properties prop = new Properties();
-        prop.setProperty("javax.jdo.PersistenceManagerFactoryClass","jdo");
-        prop.setProperty("javax.jdo.option.ConnectionDriverName","com.mysql.jdbc.Driver");
-        prop.setProperty("javax.jdo.option.ConnectionURL","jdbc:mysql://localhost/test");
-        prop.setProperty("javax.jdo.option.ConnectionUserName","root");
-        prop.setProperty("javax.jdo.option.ConnectionPassword","root");
-        PersistenceManagerFactory factory = JDOHelper.getPersistenceManagerFactory(prop);
+    public PersistenceManagerFactory getPersistenceManagerFactory(String unit){
+        if(unit != null)
+            this.factory = JDOHelper.getPersistenceManagerFactory(unit);
+        else{
+            this.factory = JDOHelper.getPersistenceManagerFactory(buildProp());
+        }
         return factory;
     }
+
+    public Properties buildProp(){
+        Properties prop = new Properties();
+//        prop.setProperty("javax.jdo.PersistenceManagerFactoryClass","org.datanucleus.api.jdo.JDOPersistenceManagerFactory");
+        prop.setProperty("javax.jdo.option.ConnectionDriverName","com.mysql.jdbc.Driver");
+        prop.setProperty("javax.jdo.option.ConnectionURL","jdbc:mysql://localhost:3306/test");
+        prop.setProperty("javax.jdo.option.ConnectionUserName","root");
+        prop.setProperty("javax.jdo.option.ConnectionPassword","root");
+        prop.setProperty("javax.jdo.option.Mapping","mysql");
+        prop.setProperty("datanucleus.autoCreateSchema","true");
+        return prop;
+    }
+
 
     /**
      * 获取manager
@@ -55,7 +64,7 @@ public class JDOContext {
     public void buildMetadata(Class clazz){
         JDOMetadata md = getJDOMetadata();
         ClassMetadata cmd = md.newClassMetadata(clazz);
-        cmd.setTable("CLIENT").setDetachable(true).setIdentityType(IdentityType.DATASTORE);
+        cmd.setTable("account").setDetachable(true).setIdentityType(IdentityType.DATASTORE);
         cmd.setPersistenceModifier(ClassPersistenceModifier.PERSISTENCE_CAPABLE);
 
         InheritanceMetadata inhmd = cmd.newInheritanceMetadata();
@@ -72,5 +81,17 @@ public class JDOContext {
         fmd.setNullValue(NullValue.DEFAULT).setColumn("client_name");
         fmd.setIndexed(true).setUnique(true);
         factory.registerMetadata(md);
+    }
+
+
+    public static void main(String args[]){
+        JDOContext ctx = new JDOContext();
+        ctx.getPersistenceManagerFactory(null);
+        ctx.buildMetadata(Account.class);
+        PersistenceManager pm = ctx.getPersistenceManager();
+        Account account = new Account();
+        account.setId("1");
+        account.setName("zhangsan");
+        pm.makePersistent(account);
     }
 }

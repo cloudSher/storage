@@ -1,0 +1,6 @@
+displayName: 通用参数
+queryParameters:
+  sign:
+    description: |
+      参数签名后的值
+    type: string

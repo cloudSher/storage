@@ -17,6 +17,11 @@
     <properties>
         <morphia.version>0.105</morphia.version>
         <querydsl.version>4.1.3</querydsl.version>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <zookeeper_version>3.4.6</zookeeper_version>
+        <zkclient_version>0.1</zkclient_version>
+        <jaxrs_version>2.3.3</jaxrs_version>
+        <rs_version>2.0.1</rs_version>
     </properties>
 
 
@@ -56,11 +61,22 @@
             <!--<type>test-jar</type>-->
         </dependency>
 
-        <!--<dependency>-->
-            <!--<groupId>com.eternity.workbench.api</groupId>-->
-            <!--<artifactId>workbench-api</artifactId>-->
-            <!--<version>1.0-SNAPSHOT</version>-->
-        <!--</dependency>-->
+        <!--raml 依赖包-->
+        <dependency>
+            <groupId>javax.ws.rs</groupId>
+            <artifactId>javax.ws.rs-api</artifactId>
+            <version>${rs_version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-databind</artifactId>
+            <version>2.8.1</version>
+        </dependency>
+        <dependency>
+            <groupId>javax.validation</groupId>
+            <artifactId>validation-api</artifactId>
+            <version>1.1.0.Final</version>
+        </dependency>
     </dependencies>
 
     <build>
@@ -91,6 +107,34 @@
                                 <defaultOverwrite>true</defaultOverwrite>
                             </options>
                         </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+
+            <!--raml 编译生成类插件-->
+            <plugin>
+                <groupId>org.raml.plugins</groupId>
+                <artifactId>raml-jaxrs-maven-plugin</artifactId>
+                <version>1.3.4</version>
+                <configuration>
+                    <sourceDirectory>com/eternity/storage/raml</sourceDirectory>
+                    <outputDirectory>${basedir}/src/main/java/</outputDirectory>
+                    <basePackageName>com.eternity.storage.api</basePackageName>
+                    <generateClientProxy>false</generateClientProxy>
+                    <jaxrsVersion>2.0</jaxrsVersion>
+                    <useJsr303Annotations>true</useJsr303Annotations>
+                    <jsonMapper>jackson2</jsonMapper>
+                    <jsonMapperConfiguration>
+                        <useLongIntegers>true</useLongIntegers>
+                    </jsonMapperConfiguration>
+                    <removeOldOutput>true</removeOldOutput>
+                </configuration>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>generate</goal>
+                        </goals>
+                        <phase>generate-sources</phase>
                     </execution>
                 </executions>
             </plugin>

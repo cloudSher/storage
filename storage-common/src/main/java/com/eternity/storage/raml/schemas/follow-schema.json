@@ -1,0 +1,23 @@
+{
+  "required": true,
+  "$schema": "http://json-schema.org/draft-extends/schema",
+  "type": "object",
+  "properties": {
+    "topicId" : {
+      "type": "integer",
+      "required": false
+    },
+    "follower": {
+      "type": "object",
+      "$ref": "fans"
+    },
+    "followType": {
+      "type": "string",
+      "required": false
+    },
+    "followTime": {
+      "type": "string",
+      "required": false
+    }
+  }
+}

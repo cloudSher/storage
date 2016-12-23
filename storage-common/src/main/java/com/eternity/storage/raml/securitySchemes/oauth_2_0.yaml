@@ -1,0 +1,26 @@
+description: |
+    系统支持 OAuth 2.0 来验证所有的APIs
+type: OAuth 2.0
+describedBy:
+  headers:
+    Authorization:
+      description: |
+        通常发送一个有效的OAuth 2的access token.不要和queryParameters里的access_token同时使用
+      type: string
+  queryParameters:
+    access_token:
+      description: |
+        Used to send a valid OAuth 2 access token. Do not use together with
+        the "Authorization" header
+      type: string
+  responses:
+    401:
+      description: |
+        错误或过期的token. 如果用户或Dropbox撤销或过期了访问令牌，就会发生这种情况。要解决此问题，您应该重新验证用户
+    403:
+      description: |
+        错误的OAuth请求 (wrong consumer key, bad nonce, expired timestamp...). 不幸的是，重新验证用户也不会起作用
+settings:
+  authorizationUri: https://www.startupsass.com/1/oauth2/authorize
+  accessTokenUri: https://api.startupsass.com/1/oauth2/token
+  authorizationGrants: [ code, token ]

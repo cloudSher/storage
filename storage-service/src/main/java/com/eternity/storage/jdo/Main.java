@@ -14,23 +14,24 @@ import javax.jdo.metadata.JDOMetadata;
  */
 public class Main {
 
+    private static final String UNIT = "Tutorial";
 
     public static void main(String args[]){
-//        PersistenceManagerFactory pmf = JDOHelper.getPersistenceManagerFactory("Tutorial");
-//        PersistenceManager pm = pmf.getPersistenceManager();
-//
-//        JDOMetadata jdoMetadata = pmf.newMetadata();
-//
-//        Account  account = new Account();
-//        account.setId("111");
-//        account.setName("account");
-//        Login login = new Login();
-//        login.setLogin("222");
-//        login.setPassword("333");
-//        account.setLogin(login);
+        JDOContext ctx = new JDOContext();
+        PersistenceManagerFactory pmf = ctx.getPersistenceManagerFactory(UNIT);
+        PersistenceManager pm = pmf.getPersistenceManager();
+
+        Account  account = new Account();
+        account.setId("111");
+        account.setName("account");
+        Login login = new Login();
+        login.setLogin("222");
+        login.setPassword("333");
+        account.setLogin(login);
 //        pm.makePersistent(account);
-//
-//        Query<Account> query = pm.newQuery(Account.class);
-//        query.executeList();
+
+        Query<Account> query = pm.newQuery(Account.class);
+        System.out.println("==============" + query.executeList().toString());
+
     }
 }

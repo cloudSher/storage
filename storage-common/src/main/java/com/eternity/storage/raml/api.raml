@@ -1,0 +1,212 @@
+#%RAML 0.8
+title: STARTUP
+version: 1.0
+baseUri: http://api.startupsass.com/
+protocols: [ HTTP, HTTPS ]
+securedBy: [ oauth_2_0 ]
+
+securitySchemes:
+  - oauth_2_0: !include securitySchemes/oauth_2_0.yaml
+
+schemas:
+  - topic: !include schemas/topic-schema.json
+  - topics: !include schemas/topics-schema.json
+  - post: !include schemas/post-schema.json
+  - posts: !include schemas/posts-schema.json
+  - publisher: !include schemas/publisher-shcema.json
+  - poster: !include schemas/poster-shcema.json
+  - posters: !include schemas/posters-schema.json
+  - content: !include schemas/content-shcema.json
+  - contentDetail: !include schemas/contentDetail-schema.json
+  - fan: !include schemas/fan-schema.json
+  - fans: !include schemas/fans-schema.json
+  - follow: !include schemas/follow-schema.json
+  - liker: !include schemas/liker-schema.json
+  - like-update: !include schemas/like-update-schema.json
+  - review: !include schemas/review-schema.json
+  - reviewer: !include schemas/reviewer-schema.json
+  - error-schema: !include schemas/error-schema.json
+  - update: !include schemas/update-schema.json
+
+resourceTypes:
+  - member: !include resourceTypes/member.yaml
+  - baseResource: !include resourceTypes/baseResource.yaml
+  - fieldSelectorMember: !include resourceTypes/fieldSelectorMember.yaml
+  - fieldSelectors: !include resourceTypes/fieldSelectors.yaml
+  - collection: !include resourceTypes/collections.yaml
+  - fieldSelectorCollection: !include resourceTypes/fieldSelectorCollection.yaml
+
+traits:
+  - hasModifiedFilter: !include traits/hasModifiedFilter.yaml
+  - hasSession: !include traits/hasSession.yaml
+  - paged: !include traits/paged.yaml
+  - oauth: !include traits/oauth2_0.yaml
+  - common: !include traits/common.yaml
+
+documentation:
+  - title: 创业服务平台接口规范
+    content: !include documentation/api.md
+
+/topics:
+  description: |
+    话题资源
+  type:  baseResource
+  post:
+    description: |
+        创建话题
+    is: [ hasSession, oauth ]
+    body:
+      application/json:
+        schema: topic
+    responses:
+      200:
+        description: 创建话题成功响应
+        body:
+          application/json:
+            schema: topic
+  /~{field_selectors}:
+    type:  { fieldSelectorCollection: {type : topic} }
+    get:
+      description: |
+        搜索话题
+      is: [ paged, oauth ]
+      queryParameters:
+        keywords:
+          type: string
+        tags:
+          type: string
+      responses:
+        200:
+          body:
+            application/json:
+               schema: topics
+
+  /{topic_id}:
+    type: { member: {type : topic} }
+    get:
+      description: |
+        根据话题ID获取话题
+      is: [ oauth ]
+      responses:
+        200:
+          body:
+            application/json:
+              schema: topic
+    patch:
+      description: |
+        根据话题ID部分更新话题
+      is: [ hasSession, oauth, hasModifiedFilter ]
+      responses:
+        200:
+          body:
+            application/json:
+              schema: topic
+    delete:
+      description: |
+        删除当前话题
+      is: [hasSession, oauth]
+      responses:
+    /publish:
+      type: baseResource
+      post:
+        description: |
+          发布当前话题下的帖子
+        is: [ hasSession, oauth ]
+        body:
+          application/json:
+            schema: post
+        responses:
+          200:
+            body:
+              application/json:
+                schema: post
+    /follow:
+      type: baseResource
+      post:
+        description: |
+          关注当前话题
+        is: [ hasSession, oauth ]
+        body:
+          application/json:
+            schema: follow
+        responses:
+          200:
+            body:
+              application/json:
+                schema: follow
+/posts:
+  description: |
+     帖子资源
+  /~{field_selectors}:
+    type:  { fieldSelectorCollection: {type : post} }
+    get:
+      description: |
+        查询某个话题下的帖子列表
+      is: [ paged, oauth ]
+      queryParameters:
+        keywords:
+          type: string
+        topic_id:
+          type: integer
+          required: true
+      responses:
+        200:
+          body:
+            application/json:
+              schema: posts
+  /{postId}:
+    type:  { member : {type : post} }
+    get:
+      description: |
+        根据ID查询一个帖子
+      is: [ oauth ]
+      responses:
+        200:
+          body:
+            application/json:
+              schema: post
+    patch:
+      description: |
+         根据ID修改帖子的内容
+      is: [ hasSession, oauth, hasModifiedFilter ]
+      responses:
+        200:
+          body:
+            application/json:
+              schema: post
+    delete:
+      description: |
+        删除一个帖子
+      is:  [hasSession, oauth]
+      responses:
+    /like:
+      type: baseResource
+      post:
+        description: |
+          点赞一个帖子
+        body:
+          application/json:
+            schema: like-update
+        responses:
+          200:
+            body:
+              application/json:
+                schema: update
+    /review:
+      type: baseResource
+      post:
+        description: |
+          回复一个帖子
+        is: [ hasSession, oauth]
+        body:
+          application/json:
+            schema: review
+      /{review_id}:
+        delete:
+          description: |
+             根据回复ID删除回复
+          is:  [hasSession, oauth]
+          responses:
+            204:
+              body:
+                application/json:

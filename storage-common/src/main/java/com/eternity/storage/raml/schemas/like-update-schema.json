@@ -1,0 +1,23 @@
+{
+  "$schema": "http://json-schema.org/draft-extends/schema",
+  "type": "object",
+  "properties": {
+    "postId" : {
+      "type": "integer",
+      "required": true
+    },
+    "action": {
+      "type": "object",
+      "enum": [ "like", "unlike"]
+    },
+    "operator": {
+      "type": "object",
+      "$ref": "liker",
+      "required": true
+    },
+    "operateTime": {
+      "type": "string",
+      "required": true
+    }
+  }
+}

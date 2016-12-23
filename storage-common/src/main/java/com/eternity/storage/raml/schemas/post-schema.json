@@ -1,0 +1,51 @@
+{
+  "required": true,
+  "$schema": "http://json-schema.org/draft-extends/schema",
+  "type": "object",
+  "properties": {
+    "id": {
+      "description": "ID",
+      "type": "string",
+      "required": false
+    },
+    "createTime": {
+      "description": "创建时间",
+      "type": "string",
+      "required": false
+    },
+    "status": {
+      "description": "当前状态",
+      "type": "string",
+      "required": false
+    },
+    "content": {
+      "description": "内容",
+      "type": "object",
+      "$ref": "content"
+    },
+    "poster": {
+      "description": "发帖人",
+      "type": "object",
+      "$ref": "poster"
+    },
+    "topic": {
+      "description": "主题",
+      "type": "object",
+      "$ref": "topic"
+    },
+    "review": {
+      "description": "评论集合",
+      "type": "array",
+      "items": {
+        "$ref": "review"
+      }
+    },
+    "likes": {
+      "description": "点赞集合",
+      "type": "array",
+      "items": {
+        "$ref": "liker"
+     }
+    }
+  }
+}

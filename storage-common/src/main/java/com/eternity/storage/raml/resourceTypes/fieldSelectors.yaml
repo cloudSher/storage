@@ -1,0 +1,28 @@
+usage: |
+  当你需要从资源中获取想要的字段时，可以使用filedSelector
+type: baseResource
+description: |
+  Describes field selectors uri path parameter
+uriParameters:
+  field_selectors:
+    displayName: Field Selectors
+    description: |
+      很多资源允许你指定想要返回的字段。我们称这种语法结构为字段选择器。通过准确的指出你需要的信息，我们可以优化返回结果花费的时间。
+      这样也能减少传输的数据。这两点让我们的APIs快速且高效，这是任何一个web应用程序的关键点，对于其他任何依赖外部API的人来说更是如此。
+
+      Field selectors are specified after the resource identifiers and path components of a resource, prefixed by a colon,
+      contained within parenthesis, and separated by commas. Fields will be returned in the order specified. When URL-encoding
+      your resource URLs, ensure that the parenthesis used in selectors remain unescaped.
+
+      Examples
+      --------
+      To get a member's ID, first name, last name, and industry:
+        `http://api.startupsass.com/v1/people/~:(id,first-name,last-name,industry)`
+
+      Or the same set of information for their connections:
+        `http://api.startupsass.com/v1/people/~/connections:(id,first-name,last-name,industry)`
+
+      Fields selectors can also be nested to access individual fields from a larger collection. For example, to get just the
+      job titles and not the rest of the information about positions:
+        `http://api.startupsass.com/v1/people/~/connections:(id,first-name,last-name,positions:(title))`
+    example: ":(id,first-name,last-name,industry)"

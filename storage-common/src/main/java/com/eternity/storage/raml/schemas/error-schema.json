@@ -1,0 +1,28 @@
+{
+  "description": "错误，请求错误时返回",
+  "required": false,
+  "$schema": "http://json-schema.org/draft-03/schema",
+  "type": "object",
+  "properties" :{
+    "errorCode" : {
+        "description": "错误码",
+        "type": "number",
+        "required": false
+    },
+    "message": {
+        "description": "错误信息",
+        "type": "string",
+        "required": false
+    },
+    "status": {
+        "description": "状态码",
+        "type": "number",
+        "required": false
+    },
+    "timestamp": {
+        "description": "时间戳",
+        "type": "number",
+        "required": false
+    }
+  }
+}

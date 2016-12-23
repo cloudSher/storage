@@ -1,0 +1,22 @@
+usage: |
+  当你需要从资源中获取想要的字段时，可以使用filedSelector
+type: { collection: { type: <<type>> } }
+uriParameters:
+  field_selectors:
+    displayName: 字段选择器
+    description: |
+      很多资源允许你指定想要返回的字段。我们称这种语法结构为字段选择器。通过准确的指出你需要的信息，我们可以优化返回结果花费的时间。
+      这样也能减少传输的数据。这两点让我们的APIs快速且高效，这是任何一个web应用程序的关键点，对于其他任何依赖外部API的人来说更是如此。
+
+      Example
+      --------
+      如果想要获得people先关的id,first-name,last-name,industry可以这样使用:
+        `http://api.startupsass.com/v1/people/~:(id,first-name,last-name,industry)`
+
+      或者:
+        `http://api.startupsass.com/v1/people/~/connections:(id,first-name,last-name,industry)`
+
+      字段选择器可以选择成员对象中的字段:
+        `http://api.startupsass.com/v1/people/~/connections:(id,first-name,last-name,positions:(title))`
+
+    example: ":(id,first-name,last-name,industry)"

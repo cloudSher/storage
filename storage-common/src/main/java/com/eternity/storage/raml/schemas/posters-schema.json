@@ -1,0 +1,16 @@
+{
+  "required": false,
+  "$schema": "http://json-schema.org/draft-extends/schema",
+  "type": "object",
+  "properties": {
+    "posters" : {
+      "type": "array",
+      "items": {
+        "$ref": "poster"
+      }
+    },
+    "totalCount": {
+      "type": "integer"
+    }
+  }
+}

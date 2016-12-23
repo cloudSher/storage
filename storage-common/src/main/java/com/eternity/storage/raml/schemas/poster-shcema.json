@@ -1,0 +1,22 @@
+{
+  "$schema": "http://json-schema.org/draft-extends/schema",
+  "type": "object",
+  "properties": {
+    "id" : {
+      "type": "integer",
+      "required": false
+    },
+    "name": {
+      "type": "string",
+      "required": false
+    },
+    "image": {
+      "type": "string",
+      "required": false
+    },
+    "level": {
+      "type": "string",
+      "required": false
+    }
+  }
+}

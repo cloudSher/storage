@@ -9,7 +9,7 @@
             </field>
         </class>
 
-        <class name="Loggin" identity-type="datastore">
+        <class name="Login" identity-type="datastore">
             <field name="login"/>
             <field name="password"/>
         </class>

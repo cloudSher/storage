@@ -1,0 +1,26 @@
+{
+  "required": true,
+  "$schema": "http://json-schema.org/draft-extends/schema",
+  "type": "object",
+  "properties": {
+    "id": {
+      "type": "integer",
+      "required": false
+    },
+    "content": {
+      "type": "string",
+      "required": false
+    },
+    "reviewer": {
+      "$ref": "reviewer"
+    },
+    "postId": {
+      "type": "integer",
+      "required": true
+    },
+    "reviewId": {
+      "type": "integer",
+      "required": false
+    }
+  }
+}

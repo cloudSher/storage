@@ -1,0 +1,308 @@
+usage: |
+  定义基础操作：Get，Post，Put，Patch，Delete
+  被上层reource继承
+get?:
+  is: [ common ]
+  headers:
+    x-la-format:
+      description: |
+        自定义header字段，标识响应结果的格式。 枚举类型：[json]
+      enum:
+        - json
+    x-la-app-key:
+      description: |
+        系统分配的app_key
+      type: string
+    x-la-sign-method:
+      description: |
+        系统参数签名方式
+      enum: [ MD5 ]
+  responses:
+    200:
+      description: |
+        请求成功
+      body:
+        application/json:
+    400:
+      description: |
+        参数格式不正确
+      body:
+        application/json:
+          schema: error-schema
+          example: !include ../examples/error-example.json
+    401:
+      description: |
+        OAuth签名不正确
+      body:
+        application/json:
+          schema: error-schema
+          example: !include ../examples/error-example.json
+    403:
+      description: |
+        对资源的访问被拒绝。通常这意味着当前请求被限制。也可能是你没有访问此资源的权限
+      body:
+        application/json:
+          schema: error-schema
+          example: !include ../examples/error-example.json
+    404:
+      description: |
+        资源未发现(例如：请求一个不存在的用户或URL)
+      body:
+        application/json:
+          schema: error-schema
+          example: !include ../examples/error-example.json
+    500:
+      description: |
+        在服务端有应用错误
+      body:
+        application/json:
+          schema: error-schema
+          example: !include ../examples/error-example.json
+put?:
+  is: [ common ]
+  headers:
+    x-la-format:
+      description: |
+        自定义header字段，标识响应结果的格式。 枚举类型：[json]
+      enum:
+        - json
+    x-la-app-key:
+      description: |
+        系统分配的app_key
+      type: string
+    x-la-sign-method:
+      description: |
+        系统参数签名方式
+      enum: [ MD5 ]
+  responses:
+    200:
+      description: |
+        请求成功
+      body:
+        application/json:
+    201:
+      description: |
+        创建或替换一条记录的请求成功. 当返回201时，Location头字段通常跟随返回
+      body:
+        application/json:
+    400:
+      description: |
+        请求参数格式不正确
+      body:
+        application/json:
+          schema: error-schema
+          example: !include ../examples/error-example.json
+    401:
+      description: |
+        OAuth签名不正确
+      body:
+        application/json:
+          schema: error-schema
+          example: !include ../examples/error-example.json
+    403:
+      description: |
+        对资源的访问被拒绝。通常这意味着当前请求被限制。也可能是你没有访问此资源的权限
+      body:
+        application/json:
+          schema: error-schema
+          example: !include ../examples/error-example.json
+    404:
+      description: |
+        资源未发现(例如：请求一个不存在的用户或URL)
+      body:
+        application/json:
+          schema: error-schema
+          example: !include ../examples/error-example.json
+    500:
+      description: |
+        在服务端有应用错误
+      body:
+        application/json:
+          schema: error-schema
+          example: !include ../examples/error-example.json
+patch?:
+  is: [ common ]
+  headers:
+    x-la-format:
+      description: |
+        自定义header字段，标识响应结果的格式。 枚举类型：[json]
+      enum:
+        - json
+    x-la-app-key:
+      description: |
+        系统分配的app_key
+      type: string
+    x-la-sign-method:
+      description: |
+        系统参数签名方式
+      enum: [ MD5 ]
+  responses:
+    200:
+      description: |
+        请求成功
+      body:
+        application/json:
+    201:
+      description: |
+        创建或替换一条记录的请求成功. 当返回201时，Location头字段通常跟随返回
+      body:
+        application/json:
+    400:
+      description: |
+        请求参数格式不正确
+      body:
+        application/json:
+          schema: error-schema
+          example: !include ../examples/error-example.json
+    401:
+      description: |
+        OAuth签名不正确
+      body:
+        application/json:
+          schema: error-schema
+          example: !include ../examples/error-example.json
+    403:
+      description: |
+        对资源的访问被拒绝。通常这意味着当前请求被限制。也可能是你没有访问此资源的权限
+      body:
+        application/json:
+          schema: error-schema
+          example: !include ../examples/error-example.json
+    404:
+      description: |
+        资源未发现(例如：请求一个不存在的用户或URL)
+      body:
+        application/json:
+          schema: error-schema
+          example: !include ../examples/error-example.json
+    500:
+      description: |
+        在服务端有应用错误
+      body:
+        application/json:
+          schema: error-schema
+          example: !include ../examples/error-example.json
+post?:
+  is: [ common ]
+  headers:
+    x-la-format:
+      description: |
+        自定义header字段，标识响应结果的格式。 枚举类型：[json]
+      enum:
+        - json
+    x-la-app-key:
+      description: |
+        系统分配的app_key
+      type: string
+    x-la-sign-method:
+      description: |
+        系统参数签名方式
+      enum: [ MD5 ]
+  responses:
+    200:
+      description: |
+        请求成功
+      body:
+        application/json:
+    201:
+      description: |
+        创建或替换一条记录的请求成功. 当返回201时，Location头字段通常跟随返回
+      body:
+        application/json:
+    400:
+      description: |
+        请求参数格式不正确
+      body:
+        application/json:
+          schema: error-schema
+          example: !include ../examples/error-example.json
+    401:
+      description: |
+        OAuth签名不正确
+      body:
+        application/json:
+          schema: error-schema
+          example: !include ../examples/error-example.json
+    403:
+      description: |
+        对资源的访问被拒绝。通常这意味着当前请求被限制。也可能是你没有访问此资源的权限
+      body:
+        application/json:
+          schema: error-schema
+          example: !include ../examples/error-example.json
+    404:
+      description: |
+        资源未发现(例如：请求一个不存在的用户或URL)
+      body:
+        application/json:
+          schema: error-schema
+          example: !include ../examples/error-example.json
+    500:
+      description: |
+        在服务端有应用错误
+      body:
+        application/json:
+          schema: error-schema
+          example: !include ../examples/error-example.json
+delete?:
+  is: [ common ]
+  headers:
+    x-la-format:
+      description: |
+        自定义header字段，标识响应结果的格式。 枚举类型：[json]
+      enum:
+        - json
+    x-la-app-key:
+      description: |
+        系统分配的app_key
+      type: string
+    x-la-sign-method:
+      description: |
+        系统参数签名方式
+      enum: [ MD5 ]
+  responses:
+    204:
+      description: |
+        删除记录请求成功
+    400:
+      description: |
+        请求参数格式不正确
+      body:
+        application/json:
+          schema: error-schema
+          example: !include ../examples/error-example.json
+    401:
+      description: |
+        OAuth签名不正确
+      body:
+        application/json:
+          schema: error-schema
+          example: !include ../examples/error-example.json
+    403:
+      description: |
+        对资源的访问被拒绝。通常这意味着当前请求被限制。也可能是你没有访问此资源的权限
+      body:
+        application/json:
+          schema: error-schema
+          example: !include ../examples/error-example.json
+    404:
+      description: |
+        资源未发现(例如：请求一个不存在的用户或URL)
+      body:
+        application/json:
+          schema: error-schema
+          example: !include ../examples/error-example.json
+    405:
+      description: |
+        通常意味着你用了错误的http方法 (例如，Post接口却发送Get请求)
+      body:
+        application/json:
+          schema: error-schema
+          example: !include ../examples/error-example.json
+    500:
+      description: |
+        在服务端有应用错误
+      body:
+        application/json:
+          schema: error-schema
+          example: !include ../examples/error-example.json

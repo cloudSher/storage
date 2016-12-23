@@ -1,82 +1,106 @@
 package com.eternity.storage.core.query;
 
-import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
- * Created by Administrator on 2016/9/19.
+ * Created by Administrator on 2016/12/14.
  */
 public class Criteria {
 
-    private final Object NOT_SET = new Object();
-    private List<Criteria> criteriaChain;
-    private String key;
-    private Object value;
-    private Object[] obj;
-    private OperateType type;
+    private List<Criteria> orderCriteria;
+    private Criterion criterion;
+    private Operator type;
+    private boolean isComposite = false;
 
-
-    public Criteria(){
-        this.value = NOT_SET;
-        this.criteriaChain = new ArrayList<>();
+    private Criteria(){
     }
 
-    public Criteria(String key,Object value){
-        this.value = value;
-        this.key = key;
+    public Criterion getCriterion() {
+        return criterion;
+    }
+
+    public Operator getType() {
+        return type;
+    }
+
+    public boolean isComposite() {
+        return isComposite;
+    }
+
+    public List<Criteria> getOrderCriteria(){
+        return orderCriteria;
+    }
+
+    public static Criteria newCriteria(){
+        return new Criteria();
     }
 
 
-    public Criteria(String key,Object... value){
-        this.obj = value;
-        this.key = key;
+    public static Criteria and(Criteria... criterions){
+        return handler("and",criterions);
     }
 
-    public Criteria(List<Criteria> criterias){
-        if(criterias == null || criterias.size() == 0){
-            throw new IllegalArgumentException("when criteria init,the criteria chain  must not be null");
-        }
-        this.criteriaChain = criterias;
+
+    public static Criteria or(Criteria... criterions){
+        return handler("or",criterions);
     }
 
-    public static Criteria eq(String field, Object value){
-        notNull(field,value);
-        return new Criteria(field,value).setType(OperateType.EQ);
+    public static Criterion newCriterion(String key,Operator type,Object value){
+        return new Criterion(key,type,value,null);
     }
 
-    public static Criteria ne(String name, Object val){
+    public static Criterion newCriterion(String key,Operator type,Object value,Object secondVal){
+        return new Criterion(key,type,value,secondVal);
+    }
+
+    public static Criteria addCriterion(Criterion criterion){
+        Criteria criteria = newCriteria();
+        criteria.criterion = criterion;
+        return criteria;
+    }
+
+    public static Criteria eq(String key,Object value){
+        notNull(key,value);
+        Criterion criterion = newCriterion(key, Operator.EQ, value);
+        return addCriterion(criterion);
+    }
+
+    public static Criteria ne(String name,Object val){
         notNull(name,val);
-        return new Criteria(name,val).setType(OperateType.NE);
+        return addCriterion(newCriterion(name, Operator.NE,val));
     }
 
-    public static Criteria lt(String fileName, Object val){
-        notNull(fileName,val);
-        return new Criteria(fileName,val).setType(OperateType.LT);
-    }
-
-    public static Criteria lte(String name, Object val){
+    public static Criteria lt(String name,Object val){
         notNull(name,val);
-        return new Criteria(name,val).setType(OperateType.LTE);
+        return addCriterion(newCriterion(name, Operator.LT,val));
     }
 
-    public static Criteria gt(String name, Object obj){
-        notNull(name,obj);
-        return new Criteria(name,obj).setType(OperateType.GT);
-    }
-
-    public static Criteria gte(String name, Object val){
+    public static Criteria lte(String name,Object val){
         notNull(name,val);
-        return new Criteria(name,val).setType(OperateType.GTE);
+        return addCriterion(newCriterion(name, Operator.LTE,val));
     }
 
-    public static Criteria in(String name, Object ... val){
+    public static Criteria gt(String name,Object val){
         notNull(name,val);
-        return new Criteria(name,val).setType(OperateType.IN);
+        return addCriterion(newCriterion(name, Operator.GT,val));
     }
 
-    public static Criteria nin(String name, Object... val){
+    public static Criteria gte(String name,Object val){
         notNull(name,val);
-        return new Criteria(name,val).setType(OperateType.NIN);
+        return addCriterion(newCriterion(name, Operator.GTE,val));
+    }
+
+    public static Criteria in(String name,Object ... val){
+        notNull(name,val);
+        return addCriterion(newCriterion(name, Operator.IN,val));
+    }
+
+    public static Criteria nin(String name,Object... val){
+        notNull(name,val);
+        return addCriterion(newCriterion(name, Operator.NE,val));
     }
 
 
@@ -96,68 +120,125 @@ public class Criteria {
         }
     }
 
-    public static Criteria and(Criteria... criterias){
-        return conditional("and",criterias);
-    }
 
-    public static Criteria or(Criteria... criterias){
-        return conditional("or",criterias);
-    }
 
-    public static Criteria conditional(String cmd, Criteria... criterias){
-        OperateType type = null;
+    public static Criteria handler(String cmd,Criteria ... criterias){
+        if(criterias.length <= 1){
+            throw new IllegalArgumentException("参数个数最少大于1");
+        }
+        Criteria c = newCriteria();
+        c.orderCriteria = Arrays.asList(criterias);
+        c.isComposite = true;
         if("and".equals(cmd)){
-            type = OperateType.AND;
+            c.type = Operator.AND;
         }else if("or".equals(cmd)){
-            type = OperateType.OR;
+            c.type = Operator.OR;
         }
-        List<Criteria> criteriaList = new ArrayList<>(criterias.length);
-        for(Criteria criteria : criterias){
-            criteriaList.add(criteria);
+        return c;
+
+    }
+
+
+
+
+    static class Criterion {
+        private String condition;
+        private Object value;
+        private Object secondVal;
+        private Operator operator;
+
+        public Criterion(String condition,Operator operator, Object value,Object secondVal) {
+            this.condition = condition;
+            this.value = value;
+            this.operator = operator;
+            this.secondVal = secondVal;
         }
-        Criteria criteria = new Criteria(criteriaList);
-        criteria.setType(type);
-        return criteria;
+
+        public String getCondition() {
+            return condition;
+        }
+
+        public void setCondition(String condition) {
+            this.condition = condition;
+        }
+
+        public Object getValue() {
+            return value;
+        }
+
+        public void setValue(Object value) {
+            this.value = value;
+        }
+
+        public Operator getOperator() {
+            return operator;
+        }
+
+        public Object getSecondVal() {
+            return secondVal;
+        }
+
+        public void setOperator(Operator operator) {
+            this.operator = operator;
+        }
     }
 
-    public String getKey() {
-        return key;
+
+    enum Operator{
+        AND("and","and","and"),
+        OR("or","or","or"),
+        EQ("eq","=","EqualTo"),
+        NE("nq","<>","NotEqualTo"),         //NotEqual
+        LT("lt","<","LessThan"),         //小于
+        LTE("lte","<=","LessThanOrEqualTo"),        //小于等于
+        GT("gt",">","GreaterThan"),         //大于
+        GTE("gte",">=","GreaterThanOrEqualTo"),        //大于等于
+        LIKE("like","like","Like"),        //like
+        NLIKE("nlike","not like","NotLike"),
+        IN("in","in","In"),
+        NIN("nin","not in","NotIn"),
+        BT("bt","between","Between"),
+        NBT("nbt","not between","NotBetween"),
+        IS("is","is null","IsNull"),
+        NIS("nis","not is null","IsNotNull");
+
+        private String key;
+        private String tag;
+        private String value;
+        private static Map<String,String> map = new HashMap<>();
+        Operator(String key,String tag,String value){
+            this.key = key;
+            this.tag = tag;
+            this.value = value;
+        }
+
+        public static String getValue(String key){
+            if(key != null && key.length() != 0){
+                return map.get(key);
+            }
+            return null;
+        }
+
+        public String getTag(){
+            return this.tag;
+        }
+
+        public String getValue() {
+            return value;
+        }
+
+        public void setValue(String value) {
+            this.value = value;
+        }
+
+        static{
+            Operator[] values = Operator.values();
+            for(Operator operator : values){
+                map.put(operator.key,operator.value);
+            }
+        }
+
+
+
     }
-
-    public Object getValue() {
-        return this.value;
-    }
-
-    public Object[] getObj() {
-        return obj;
-    }
-
-    public OperateType getType() {
-        return type;
-    }
-
-    public Criteria setType(OperateType type){
-        this.type = type;
-        return this;
-    }
-
-    public List<Criteria> getCriteriaChain(){
-        return this.criteriaChain;
-    }
-
-
-    enum OperateType{
-        AND,
-        OR,
-        EQ,
-        NE,         //NotEqual
-        LT,         //小于
-        LTE,        //小于等于
-        GT,         //大于
-        GTE,        //大于等于
-        LIKE,        //like
-        IN,
-        NIN
-    }
-
 }

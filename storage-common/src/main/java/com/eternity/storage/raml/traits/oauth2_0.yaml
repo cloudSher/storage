@@ -1,0 +1,6 @@
+displayName: oauth
+headers:
+  x-la-authorization:
+    description: |
+      使用 oauth2.0 的方式获取access_token
+    type: string

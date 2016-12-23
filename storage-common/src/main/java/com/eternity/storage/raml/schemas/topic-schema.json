@@ -1,0 +1,62 @@
+{
+  "$schema": "http://json-schema.org/draft-extends/schema",
+  "javaType" : "com.startup.saas.api.model.Topic",
+  "type": "object",
+  "properties": {
+    "id": {
+      "description": "ID",
+      "type": "string",
+      "required": false
+    },
+    "title": {
+      "description": "标题",
+      "type": "string",
+      "required": true
+    },
+    "image": {
+      "description": "图片地址",
+      "type": "string",
+      "required": false
+    },
+    "desc": {
+      "description": "描述",
+      "type": "string",
+      "required": false
+    },
+    "status": {
+      "description": "当前状态",
+      "type": "string",
+      "required": false
+    },
+    "publisher": {
+      "description": "发布者",
+      "$ref": "publisher",
+      "required": true
+    },
+    "publishTime": {
+      "description": "发布时间",
+      "type": "string",
+      "required": true
+    },
+    "tags": {
+      "description": "标签",
+      "type": "string",
+      "required": false
+    },
+    "fans": {
+      "description": "粉丝",
+      "$ref": "fans",
+      "required": false
+    },
+    "posters": {
+      "description": "参与者",
+      "$ref": "posters",
+      "required": false
+    },
+    "updateTime": {
+      "description": "更新时间",
+      "type": "string",
+      "required": false
+    }
+  }
+}

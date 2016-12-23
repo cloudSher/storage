@@ -1,0 +1,17 @@
+usage: |
+  用于集合的操作
+get?:
+  responses:
+    200:
+      body:
+        application/json:
+          schema: <<type>>
+post?:
+  body:
+    application/json:
+      schema: <<type>>
+put?:
+  body:
+    application/json:
+      schema: <<type>>
+type: baseResource
